@@ -27,7 +27,7 @@ exports.crearUsuario = async (req, res) => {
         console.log(error);
     }
 
-    exports.actualizarUsuario = async ( req, res ) => {
+    /*exports.actualizarUsuario = async ( req, res ) => {
         //res.json({ msg: "se ejecuto actualizar producto"});
         const { id } = req.params;
     
@@ -42,5 +42,5 @@ exports.crearUsuario = async (req, res) => {
        
         usuario.save();
         res.json({ usuario });
-    }
+    }*/
 };
