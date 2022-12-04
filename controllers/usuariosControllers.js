@@ -26,4 +26,21 @@ exports.crearUsuario = async (req, res) => {
     }catch(error){
         console.log(error);
     }
+
+    exports.actualizarUsuario = async ( req, res ) => {
+        //res.json({ msg: "se ejecuto actualizar producto"});
+        const { id } = req.params;
+    
+        const usuario = await Usuario.findById(id);
+    
+        if(!usuario){
+            return res.status(400).json({ msg: "usuario no encontrado"});
+        }
+        
+        usuario.email = req.body.email || usuario.email;
+        usuario.password = req.body.password || usuario.password;
+       
+        usuario.save();
+        res.json({ usuario });
+    }
 };
