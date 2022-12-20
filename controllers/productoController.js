@@ -1,35 +1,56 @@
 const Producto = require ("../models/producto");
 const Categoria = require ("../models/categoria");
+const producto = require("../models/producto");
+
+exports.leerProductoHome = async ( req, res ) => {
+    //res.json({ msg: "se ejecuto leer categoria"});
+    try{
+        const producto = await Producto.find();
+        res.json({ producto });
+    }catch(error){
+        console.log(error);
+    }
+
+}
 
 exports.leerProducto = async ( req, res ) => {
     //res.json({ msg: "se ejecuto leer producto"});
-    try {
+    const {id} = req.params;
+    const producto = await Producto.find().where("categoriaId").equals(id);
+    res.json(producto)
+   /* try {
         const producto = await Producto.find();
         res.json({ producto });
     } catch (error) {
         console.log(error);
-    }
+    }*/
 }
 
 exports.crearProducto = async ( req, res ) => {
     //res.json({ msg: "se ejecuto crear producto"});
-    const {categoriaId}= req.body;
-    console.log(categoriaId);
+    //const {categoriaId}= req.body;
+    //console.log(categoriaId);
     try {
-        //const producto = new Producto(req.body);
-        const categoriaencontrada = await Categoria.findById(categoriaId);
-
-        if(!categoriaencontrada){
-            return res.status(400).json({ msg: "ingrese una categoria valida"});
-        }
         const producto = new Producto(req.body);
-        await producto.save();
-
+        producto.save();
+        //const productoencontrado = await Producto.findById(productoId);
         res.json(producto);
 
     } catch (error) {
         console.log(error);
     }
+}
+
+exports.leerProductoId = async ( req, res ) => {
+    //res.json({ msg: "se ejecuto leer categoria"});
+    const {id} = req.params
+    try{
+        const producto = await Producto.findById(id); 
+        res.json({ producto });
+    }catch(error){
+        console.log(error);
+    }
+
 }
 
 exports.actualizarProducto = async ( req, res ) => {
@@ -46,7 +67,7 @@ exports.actualizarProducto = async ( req, res ) => {
     producto.descripcion = req.body.descripcion || producto.descripcion;
     producto.stock = req.body.stock || producto.stock;
     producto.precio = req.body.precio || producto.precio;
-    producto.categoriaId = req.categoria || producto.categoriaId;
+    producto.productoId = req.producto || producto.productoId;
     producto.save();
     res.json({ producto });
 
